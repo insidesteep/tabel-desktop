@@ -4,7 +4,7 @@ import { useT } from "../../lib/i18n/t";
 import { codeLabel, codeMeaning } from "../../lib/i18n/translations";
 import { useLocaleStore } from "../../state/localeStore";
 
-const ORDER: DayCode[] = ["YA", "MT", "OZH", "KV", "B"];
+const ORDER: DayCode[] = ["YA", "SH", "MT", "OZH", "KV", "B"];
 
 export function Legend() {
   const t = useT();

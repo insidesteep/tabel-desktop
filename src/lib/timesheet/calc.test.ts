@@ -5,24 +5,27 @@ import type { TimesheetEmployee } from "./types";
 // 2026-08-03 is a Monday, 2026-08-08 is a Saturday, 2026-08-09 is a Sunday.
 describe("computeCell", () => {
   it.each([
-    [1, 7, 5],
-    [0.75, 5.25, 3.75],
-    [0.5, 3.5, 2.5],
-    [0.25, 1.75, 1.25],
-  ])("rate %s -> weekday %s, saturday %s", (rate, weekday, saturday) => {
+    [1, 8],
+    [0.75, 6],
+    [0.5, 4],
+    [0.25, 2],
+  ])("rate %s -> working day %s hours", (rate, hours) => {
     const mon = computeCell(2026, 8, 3, rate, undefined);
-    expect(mon.hours).toBeCloseTo(weekday);
+    expect(mon.hours).toBeCloseTo(hours);
     expect(mon.code).toBeNull();
 
-    const sat = computeCell(2026, 8, 8, rate, undefined);
-    expect(sat.hours).toBeCloseTo(saturday);
-    expect(sat.isWeekend).toBe(true);
+    const fri = computeCell(2026, 8, 7, rate, undefined);
+    expect(fri.hours).toBeCloseTo(hours);
   });
 
-  it("Sunday is always Ya, even with an override present", () => {
-    const sun = computeCell(2026, 8, 9, 1, "MT");
-    expect(sun.code).toBe("YA");
-    expect(sun.hours).toBeNull();
+  it.each([
+    ["Saturday", 8, "SH"],
+    ["Sunday", 9, "YA"],
+  ])("%s is always %s, even with an override present", (_name, day, code) => {
+    const cell = computeCell(2026, 8, day, 1, "MT");
+    expect(cell.code).toBe(code);
+    expect(cell.hours).toBeNull();
+    expect(cell.isWeekend).toBe(true);
   });
 
   it("an override on a weekday wins over computed hours", () => {

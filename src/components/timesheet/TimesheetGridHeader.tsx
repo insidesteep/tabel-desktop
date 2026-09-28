@@ -27,15 +27,15 @@ export function TimesheetGridHeader({ year, month, layout }: { year: number; mon
       <div className="flex" style={{ marginLeft: layout.daysStart - (layout.leftRate + COL.rate), background: "var(--accent-soft)" }}>
         {days.map((d) => {
           const weekday = new Date(year, month - 1, d).getDay();
-          const isSunday = weekday === 0;
+          const dayOffCode = weekday === 0 ? "YA" : weekday === 6 ? "SH" : null;
           return (
             <div
               key={d}
               className="flex h-9 w-9 shrink-0 items-center justify-center border-r text-[11px] font-semibold last:border-r-0"
               style={{
                 borderColor: "var(--border)",
-                background: isSunday ? CODE_COLORS.YA.bg : "transparent",
-                color: isSunday ? CODE_COLORS.YA.fg : "var(--accent)",
+                background: dayOffCode ? CODE_COLORS[dayOffCode].bg : "transparent",
+                color: dayOffCode ? CODE_COLORS[dayOffCode].fg : "var(--accent)",
               }}
             >
               {d}

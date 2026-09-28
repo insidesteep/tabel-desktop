@@ -6,6 +6,7 @@ import type { DayCode } from "../timesheet/types";
 // never visually diverge from each other.
 export const EXPORT_FILL_BY_LABEL: Record<DayCode, string> = {
   YA: "BDD7EE",
+  SH: "BDD7EE",
   MT: "A2C4C9",
   OZH: "FFE699",
   KV: "F8CBAD",

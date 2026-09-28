@@ -7,6 +7,7 @@ import { EXPORT_FILL_BY_LABEL } from "../export/fillColors";
 // colors), so what you saw on screen didn't match what you got on paper.
 export const CODE_COLORS: Record<DayCode, { bg: string; fg: string }> = {
   YA: { bg: `#${EXPORT_FILL_BY_LABEL.YA}`, fg: "#1565c0" },
+  SH: { bg: `#${EXPORT_FILL_BY_LABEL.SH}`, fg: "#1565c0" },
   MT: { bg: `#${EXPORT_FILL_BY_LABEL.MT}`, fg: "#2f6b63" },
   OZH: { bg: `#${EXPORT_FILL_BY_LABEL.OZH}`, fg: "#92400e" },
   KV: { bg: `#${EXPORT_FILL_BY_LABEL.KV}`, fg: "#9a3412" },

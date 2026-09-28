@@ -4,7 +4,7 @@ import { Button } from "../common/Button";
 import { DateRangeCalendar, type CellState } from "../common/DateRangeCalendar";
 import { CODE_LABELS, CODE_MEANINGS, OVERRIDE_CODES, type OverrideCode } from "../../lib/timesheet/types";
 import { CODE_COLORS } from "../../lib/timesheet/codeColors";
-import { daysInMonth } from "../../lib/timesheet/calc";
+import { daysInMonth, isDayOff } from "../../lib/timesheet/calc";
 import * as timesheetsRepo from "../../lib/db/timesheets.repo";
 import * as employeesRepo from "../../lib/db/employees.repo";
 import * as overridesRepo from "../../lib/db/overrides.repo";
@@ -115,7 +115,7 @@ export function EmployeeLeaveDialog({
       const m = offset === 0 ? month : nextMonth;
       if (day < 1 || day > daysInMonth(y, m)) continue;
       const weekday = new Date(y, m - 1, day).getDay();
-      if (weekday === 0) continue;
+      if (isDayOff(weekday)) continue;
       (offset === 0 ? current : next).push(day);
     }
     return { current, next };

@@ -232,6 +232,7 @@ export function weekdayLabels(locale: Locale): readonly string[] {
 
 const RU_CODE_MEANINGS: Record<DayCode, string> = {
   YA: "воскресенье",
+  SH: "суббота",
   MT: "отпуск",
   OZH: "за свой счёт",
   KV: "больничный",
@@ -253,6 +254,7 @@ export function codeMeaning(code: DayCode, locale: Locale, uzMeaning: string): s
 // tracks holidays as their own category, so П (праздник) is our own choice.
 const RU_CODE_LABELS: Record<DayCode, string> = {
   YA: "В",
+  SH: "С",
   MT: "ОТ",
   OZH: "ДО",
   KV: "Б",

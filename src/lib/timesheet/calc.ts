@@ -22,10 +22,12 @@ export function daysInMonth(year: number, month1to12: number): number {
   return new Date(year, month1to12, 0).getDate();
 }
 
-/**
- * Full weekday hours = 7 * rate. Saturday is reduced by 2 * rate (matches the
- * real template exactly: rate 1.0 -> 7/5, rate 0.5 -> 3.5/2.5).
- */
+/** 5-day week: Saturday (6) and Sunday (0) are days off. */
+export function isDayOff(weekday: number): boolean {
+  return weekday === 0 || weekday === 6;
+}
+
+/** Working day hours = 8 * rate, Monday to Friday. */
 export function computeCell(
   year: number,
   month1to12: number,
@@ -34,15 +36,15 @@ export function computeCell(
   overrideCode: OverrideCode | undefined,
 ): DayCell {
   const weekday = new Date(year, month1to12 - 1, day).getDay(); // 0=Sun..6=Sat
-  if (weekday === 0) {
-    // Sunday is always "Ya", regardless of any stored override.
-    return { day, isWeekend: true, hours: null, code: "YA" };
+  if (isDayOff(weekday)) {
+    // Saturday ("Sha") and Sunday ("Ya") are always days off, regardless of
+    // any stored override.
+    return { day, isWeekend: true, hours: null, code: weekday === 6 ? "SH" : "YA" };
   }
   if (overrideCode) {
-    return { day, isWeekend: weekday === 6, hours: null, code: overrideCode };
+    return { day, isWeekend: false, hours: null, code: overrideCode };
   }
-  const hours = weekday === 6 ? (7 - 2) * rate : 7 * rate;
-  return { day, isWeekend: weekday === 6, hours, code: null };
+  return { day, isWeekend: false, hours: 8 * rate, code: null };
 }
 
 export function computeRow(
@@ -73,6 +75,8 @@ function cellCodeLabelUz(code: DayCode): string {
   switch (code) {
     case "YA":
       return "Ya";
+    case "SH":
+      return "Sha";
     case "MT":
       return "M/T";
     case "OZH":

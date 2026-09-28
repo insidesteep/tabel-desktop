@@ -1,4 +1,4 @@
-import { daysInMonth } from "../../lib/timesheet/calc";
+import { daysInMonth, isDayOff } from "../../lib/timesheet/calc";
 import { CODE_COLORS } from "../../lib/timesheet/codeColors";
 import { CODE_LABELS, type OverrideCode } from "../../lib/timesheet/types";
 import { codeLabel, weekdayLabels } from "../../lib/i18n/translations";
@@ -44,7 +44,7 @@ export function DateRangeCalendar({
         {cells.map((day, i) => {
           if (day === null) return <div key={`b${i}`} />;
           const weekday = new Date(year, month - 1, day).getDay();
-          const isSunday = weekday === 0;
+          const isSunday = isDayOff(weekday);
           const { inRange, isEdge, code } = cellState(day);
           const codeStyle = code ? CODE_COLORS[code] : null;
 

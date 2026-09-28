@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, Reorder } from "framer-motion";
 import { useTimesheetStore } from "../../state/useTimesheetStore";
 import { useCellSelectionStore } from "../../state/cellSelectionStore";
-import { renderOrder } from "../../lib/timesheet/calc";
+import { isDayOff, renderOrder } from "../../lib/timesheet/calc";
 import type { OverrideCode, TimesheetEmployee } from "../../lib/timesheet/types";
 import { TimesheetGridHeader } from "./TimesheetGridHeader";
 import { EmployeeRow } from "./EmployeeRow";
@@ -156,21 +156,21 @@ export function TimesheetGrid({
     />
   ));
 
-  function selectedDaysExcludingSunday(): number[] {
+  function selectedWorkDays(): number[] {
     if (!anchor || !cursor) return [];
     const minDay = Math.min(anchor.day, cursor.day);
     const maxDay = Math.max(anchor.day, cursor.day);
     const days: number[] = [];
     for (let d = minDay; d <= maxDay; d++) {
       const weekday = new Date(year, month - 1, d).getDay();
-      if (weekday !== 0) days.push(d);
+      if (!isDayOff(weekday)) days.push(d);
     }
     return days;
   }
 
   function applyToSelection(code: OverrideCode) {
     if (!anchor || !cursor) return;
-    const days = selectedDaysExcludingSunday();
+    const days = selectedWorkDays();
     const minRow = Math.min(anchor.rowIndex, cursor.rowIndex);
     const maxRow = Math.max(anchor.rowIndex, cursor.rowIndex);
     for (let r = minRow; r <= maxRow; r++) {
@@ -182,7 +182,7 @@ export function TimesheetGrid({
 
   function clearSelectionOverrides() {
     if (!anchor || !cursor) return;
-    const days = selectedDaysExcludingSunday();
+    const days = selectedWorkDays();
     const minRow = Math.min(anchor.rowIndex, cursor.rowIndex);
     const maxRow = Math.max(anchor.rowIndex, cursor.rowIndex);
     for (let r = minRow; r <= maxRow; r++) {
@@ -241,7 +241,7 @@ export function TimesheetGrid({
                     }}
                   >
                     <DayRangeToolbar
-                      dayCount={selectedDaysExcludingSunday().length}
+                      dayCount={selectedWorkDays().length}
                       codes={["B"]}
                       onApply={applyToSelection}
                       onClear={clearSelectionOverrides}

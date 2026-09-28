@@ -17,12 +17,12 @@ export function DayCell({
 }) {
   const locale = useLocaleStore((s) => s.locale);
   const codeStyle = cell.code ? CODE_COLORS[cell.code] : null;
-  const isSunday = cell.code === "YA";
+  const isDayOff = cell.code === "YA" || cell.code === "SH";
 
   return (
     <div
       onMouseDown={() => {
-        if (!isSunday) onSelectStart(cell.day);
+        if (!isDayOff) onSelectStart(cell.day);
       }}
       onMouseEnter={() => onSelectEnter(cell.day)}
       className="relative flex h-10 w-9 shrink-0 select-none items-center justify-center border-r text-[12px] font-bold last:border-r-0"
@@ -30,7 +30,7 @@ export function DayCell({
         borderColor: "var(--border)",
         background: selected ? "var(--accent-soft)" : codeStyle ? codeStyle.bg : "transparent",
         color: selected ? "var(--text)" : codeStyle ? codeStyle.fg : "var(--text)",
-        cursor: isSunday ? "default" : "pointer",
+        cursor: isDayOff ? "default" : "pointer",
       }}
     >
       {selected && (

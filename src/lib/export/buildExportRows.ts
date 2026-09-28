@@ -79,7 +79,7 @@ export function buildExportRows(input: ExportInput): ExportModel {
     days,
     weekendFlags,
     rows,
-    legend: (["YA", "MT", "OZH", "KV", "B"] as const).map((code) => ({
+    legend: (["YA", "SH", "MT", "OZH", "KV", "B"] as const).map((code) => ({
       code,
       label: codeLabel(code, locale, CODE_LABELS[code]),
       meaning: codeMeaning(code, locale, CODE_MEANINGS[code]),

@@ -2,16 +2,17 @@ export type Rate = 1 | 0.75 | 0.5 | 0.25;
 
 export const RATE_PRESETS: Rate[] = [1, 0.75, 0.5, 0.25];
 
-/** Special day codes. 'YA' (Sunday) is always computed, never stored as an override. */
-export type DayCode = "YA" | "MT" | "OZH" | "KV" | "B";
+/** Special day codes. 'YA' (Sunday) and 'SH' (Saturday) are always computed, never stored as an override. */
+export type DayCode = "YA" | "SH" | "MT" | "OZH" | "KV" | "B";
 
-/** Codes the user can actually assign to a day (Sunday/YA is automatic). */
-export type OverrideCode = Exclude<DayCode, "YA">;
+/** Codes the user can actually assign to a day (YA/SH weekend codes are automatic). */
+export type OverrideCode = Exclude<DayCode, "YA" | "SH">;
 
 export const OVERRIDE_CODES: OverrideCode[] = ["MT", "OZH", "KV", "B"];
 
 export const CODE_LABELS: Record<DayCode, string> = {
   YA: "Ya",
+  SH: "Sha",
   MT: "M/T",
   OZH: "O'z/h",
   KV: "K/v",
@@ -20,6 +21,7 @@ export const CODE_LABELS: Record<DayCode, string> = {
 
 export const CODE_MEANINGS: Record<DayCode, string> = {
   YA: "yakshanba",
+  SH: "shanba",
   MT: "mehnat ta'tili",
   OZH: "o'z hisobidan",
   KV: "kasallik varaqasi",
